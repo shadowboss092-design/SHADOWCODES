@@ -48,7 +48,7 @@ while true; do
         echo -e "╚══════════════════════════════════════════════════════════════════════════════╝${R}"
         read -rp "Select option: " t
         case "$t" in
-          1) echo "Hyper-V2 selected. Installer source not configured."; read -rp "Press Enter..." ;;
+          1) clear; echo "=== HYPER-V2 THEME ==="; if [ ! -d /var/www/pterodactyl ]; then echo "Pterodactyl panel not found."; elif [ -x /opt/shadowhub/hyper-utility ]; then echo "Utility found; inspect its usage before execution."; else echo "Hyper-V2 utility not installed."; fi; read -rp "Press Enter to return..." ;;
           2) echo "Blueprint selected. Installer source not configured."; read -rp "Press Enter..." ;;
           3) echo "Extensions selected. Installer source not configured."; read -rp "Press Enter..." ;;
           4) if [ -d /var/www/pterodactyl ]; then find /var/www/pterodactyl -maxdepth 4 -type d 2>/dev/null | grep -Ei "theme|hyper|blueprint|extension|arix" | head -40 || true; else echo "Pterodactyl directory not found."; fi; read -rp "Press Enter..." ;;
