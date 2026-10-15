@@ -10,7 +10,13 @@ BASE="https://raw.githubusercontent.com/shadowboss092-design/SHADOWCODES/main"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
+echo "Downloading SHADOWHUB..."
 curl -fsSL "$BASE/shadowhub.sh" -o "$TMP/shadowhub.sh"
+
+if [ ! -s "$TMP/shadowhub.sh" ]; then
+    echo "ERROR: Downloaded menu is empty."
+    exit 1
+fi
 
 mkdir -p /opt/shadowhub
 install -m 755 "$TMP/shadowhub.sh" /opt/shadowhub/shadowhub.sh
@@ -23,4 +29,4 @@ LAUNCHER
 chmod 755 /usr/local/bin/shadowhub
 
 echo "SHADOWHUB installed successfully!"
-echo "Run: shadowhub"
+echo "Run it using: shadowhub"
