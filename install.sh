@@ -1,21 +1,19 @@
 #!/bin/bash
 set -e
 
-SOURCE="$(cd -- "$(dirname -- "$0")" && pwd)/shadowhub.sh"
-TARGET="/opt/shadowhub/shadowhub.sh"
-
 if [ "$EUID" -ne 0 ]; then
-    echo "Please run as root: sudo bash install.sh"
+    echo "Run as root: sudo bash install.sh"
     exit 1
 fi
 
-if [ ! -f "$SOURCE" ]; then
-    echo "ERROR: shadowhub.sh not found!"
-    exit 1
-fi
+BASE="https://raw.githubusercontent.com/shadowboss092-design/SHADOWCODES/main"
+TMP="$(mktemp -d)"
+trap 'rm -rf "$TMP"' EXIT
+
+curl -fsSL "$BASE/shadowhub.sh" -o "$TMP/shadowhub.sh"
 
 mkdir -p /opt/shadowhub
-install -m 755 "$SOURCE" "$TARGET"
+install -m 755 "$TMP/shadowhub.sh" /opt/shadowhub/shadowhub.sh
 
 cat > /usr/local/bin/shadowhub <<'LAUNCHER'
 #!/bin/bash
@@ -25,4 +23,4 @@ LAUNCHER
 chmod 755 /usr/local/bin/shadowhub
 
 echo "SHADOWHUB installed successfully!"
-echo "Run it using: shadowhub"
+echo "Run: shadowhub"
